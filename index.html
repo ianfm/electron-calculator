@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Test App</title>
+  </head>
+  <body>
+    <h1>Goals:</h1>
+      <ol>
+        <li>Build a Calculator.</li>
+        <li>Learn how to use electron API.</li>
+      </ol>
+
+      <div>
+        <form id="operands">
+          <input class="input" id="input1" type="number" value="0">
+          <input class="input" id="input2" type="number" value="0">
+      </form>
+        <button class="operator" id="add-button">Add</button>
+        <p class="output" id="calc-result">0</p>
+      </div>
+
+    <h1>Versions:</h1>
+      <!-- All of the Node.js APIs are available in this renderer process. -->
+      <p> We are using Node.js <script>document.write(process.versions.node)</script>,
+      Chromium <script>document.write(process.versions.chrome)</script>,
+      and Electron <script>document.write(process.versions.electron)</script>. </p>
+    
+    
+    <script>
+      // You can also require other files to run in this process
+      require('./renderer.js')
+
+      const {remote} = require('electron');
+      const {Menu, MenuItem} = remote;
+
+      let submenu = new Menu();
+      submenu.append(new MenuItem({ type: 'normal', label: 'normal' }));
+      submenu.append(new MenuItem({ type: 'separator', label: 'separator' }));
+      submenu.append(new MenuItem({ type: 'checkbox', label: 'checkbox', checked: true }));
+      submenu.append(new MenuItem({ type: 'radio', label: 'radio 1' }));
+      submenu.append(new MenuItem({ type: 'radio', label: 'radio 2' }));
+
+      let menu1 = new Menu();
+      menu1.append(new MenuItem({ label: 'ClickAlert', click () { alert('item 1 clicked'); } }));
+      menu1.append(new MenuItem({ label: 'CheckTheBox', type: 'checkbox', checked: false }));
+      menu1.append(new MenuItem({ label: 'Submenu', submenu: submenu}));
+
+      window.addEventListener('contextmenu', function (e) {
+        e.preventDefault();
+        menu1.popup(remote.getCurrentWindow());
+      }, false);
+
+    </script>
+    <script src="app.js"></script>
+  </body>
+</html>
